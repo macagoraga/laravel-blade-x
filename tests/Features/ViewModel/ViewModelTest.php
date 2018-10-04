@@ -5,7 +5,7 @@ namespace Spatie\BladeX\Tests;
 use Spatie\BladeX\Facades\BladeX;
 use Illuminate\Support\Facades\View;
 use Spatie\Snapshots\MatchesSnapshots;
-use Spatie\BladeX\Exceptions\CouldNotRegisterBladeXComponent;
+use Spatie\BladeX\Exceptions\CouldNotRegisterComponent;
 use Spatie\BladeX\Tests\Features\ViewModel\TestClasses\DummyViewModel;
 use Spatie\BladeX\Tests\Features\ViewModel\TestClasses\SelectViewModel;
 use Spatie\BladeX\Tests\Features\ViewModel\TestClasses\InvalidViewModel;
@@ -91,7 +91,7 @@ class ViewModelTest extends TestCase
         $registeredComponents = BladeX::getRegisteredComponents();
 
         $this->assertCount(2, $registeredComponents);
-        $this->assertEquals(SelectViewModel::class, $registeredComponents[1]->viewModelClass);
+        $this->assertEquals(SelectViewModel::class, $registeredComponents[1]->viewModel);
     }
 
     /** @test */
@@ -105,7 +105,7 @@ class ViewModelTest extends TestCase
     /** @test */
     public function it_will_return_an_exception_if_a_view_model_class_does_not_exist()
     {
-        $this->expectException(CouldNotRegisterBladeXComponent::class);
+        $this->expectException(CouldNotRegisterComponent::class);
 
         BladeX::component('components.select-field')->viewModel('non-existing-class');
     }
@@ -113,7 +113,7 @@ class ViewModelTest extends TestCase
     /** @test */
     public function it_will_return_an_exception_if_a_view_model_class_does_not_implement_arrayable()
     {
-        $this->expectException(CouldNotRegisterBladeXComponent::class);
+        $this->expectException(CouldNotRegisterComponent::class);
 
         BladeX::component('components.select-field')->viewModel(InvalidViewModel::class);
     }
